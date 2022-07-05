@@ -1,0 +1,46 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/auth":
+    post:
+      summary: Create a user
+      parameters: []
+      responses:
+        '200':
+          description: User created
+        '422':
+          description: invalid confirmation password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                name:
+                  type: string
+                mobile_number:
+                  type: string
+                city:
+                  type: string
+                address:
+                  type: string
+                active_status:
+                  type: boolean
+              required:
+              - email
+              - password
+              - name
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000/
