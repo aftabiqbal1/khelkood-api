@@ -38,6 +38,6 @@ class TeamsController < ApplicationController
   end
 
   def match_stats_params
-    params.require(:team).permit(:id, :REesult)
+    params.require(:team).permit(:id, :result)
   end
 end
