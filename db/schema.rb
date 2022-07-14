@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_01_091527) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_091527) do
     t.float "discount_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.string "name"
+    t.integer "winner"
+    t.integer "team_a_score"
+    t.integer "team_b_score"
+    t.integer "team_a_wickets"
+    t.integer "team_b_wickets"
+    t.float "team_a_overs"
+    t.float "team_b_overs"
+    t.float "team_a_runrate"
+    t.float "team_b_runrate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "team_a_id"
+    t.integer "team_b_id"
   end
 
   create_table "order_details", force: :cascade do |t|
@@ -182,6 +199,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_01_091527) do
     t.integer "role"
     t.boolean "active_status"
     t.bigint "team_id"
+    t.bigint "otp"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
