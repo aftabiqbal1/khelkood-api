@@ -57,4 +57,7 @@ DeviseTokenAuth.setup do |config|
   # devise confirmable module. If you want to use devise confirmable module and
   # send email, set it to true. (This is a setting for compatibility)
   # config.send_confirmation_email = true
+  #config.authentication_keys = [:mobile_number]
+  # config.mailer_sender = 'Khelkood@tecaudex.com'
+  # config.mailer        = Devise.mailer
 end
