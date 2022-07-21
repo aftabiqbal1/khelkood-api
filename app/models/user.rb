@@ -15,8 +15,6 @@ class User < ActiveRecord::Base
             :presence => true,
             :numericality => true,
             :length => { :minimum => 10, :maximum => 15 }
-  # validates :phone_number_or_email_is_present
-
 
   #relationships
   has_many :bookings
@@ -38,13 +36,4 @@ class User < ActiveRecord::Base
   def email_required?
     false
   end
-
-  # def phone_number_or_email_is_present
-  #   if self.mobile_number.blank? && self.email.blank?
-  #     errors.add(:base, "Email or mobile number must be set")
-  #   end
-  # end
-  #
-
-
 end
