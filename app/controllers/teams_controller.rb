@@ -12,7 +12,7 @@ class TeamsController < ApplicationController
   end
 
   def add_match_stats
-    binding.break
+
     @stats = Team.find(match_stats_params[:id])
 
     unless @stats.nil?

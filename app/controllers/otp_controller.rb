@@ -1,29 +1,28 @@
 class OtpController < ApplicationController
   def create
-    user = User.new(phone_params)
-    otp = SecureRandom.random_number(999999)
-    user.otp = otp
-
-    if user.save
-    render json: user, status: :created
+    @otp = Otp.new(phone_params)
+    if @otp.save
+    render json: @otp, only: [:otp], status: :created
     else
-      render json: user.errors, status: :unprocessable_entity
+      render json: @otp.errors, each_serializer: OtpSerializer, status: :unprocessable_entity
     end
   end
 
-  def sign_in
-    user = User.where(otp: otp_params[:otp], mobile_number: otp_params[:mobile_number])
-    if user
-      render json: user, status: :ok
+  def verify
+    check = Otp.where(otp: otp_params[:otp], mobile_number: otp_params[:mobile_number])
+    if !check.empty?
+      check.update(verified:true)
+      User.create(mobile_number: otp_params[:mobile_number])
+      render json: check, status: :ok
     else
-      render json: user.errors, status: :not_found
+      render json: check, status: :not_found
     end
   end
 
   protected
 
   def phone_params
-    params.permit(:mobile_number, :email, :password_confirmation, :password)
+    params.permit(:mobile_number)
   end
 
   def otp_params

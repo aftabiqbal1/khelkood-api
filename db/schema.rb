@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_21_080236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +85,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
     t.bigint "product_id"
     t.index ["product_id"], name: "index_order_details_on_product_id"
     t.index ["user_id"], name: "index_order_details_on_user_id"
+  end
+
+  create_table "otps", force: :cascade do |t|
+    t.bigint "mobile_number"
+    t.integer "otp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.boolean "verified", default: false
+    t.index ["mobile_number"], name: "index_otps_on_mobile_number", unique: true
+    t.index ["user_id"], name: "index_otps_on_user_id"
   end
 
   create_table "product_reviews", force: :cascade do |t|
@@ -175,8 +186,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -204,7 +213,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["team_id"], name: "index_users_on_team_id"
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "bookings", "sports_complexes"
@@ -213,6 +221,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_14_075101) do
   add_foreign_key "carts", "users"
   add_foreign_key "order_details", "products"
   add_foreign_key "order_details", "users"
+  add_foreign_key "otps", "users"
   add_foreign_key "product_reviews", "products"
   add_foreign_key "product_reviews", "users"
   add_foreign_key "products", "discounts"

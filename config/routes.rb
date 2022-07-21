@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # devise_for :users
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
-  mount_devise_token_auth_for 'User', at: 'auth'
+  # mount_devise_token_auth_for 'User', at: 'auth'
   # mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
 
@@ -22,7 +22,11 @@ Rails.application.routes.draw do
   end
 
   resources :otp do
-    get :sign_in, to: 'otp#sign_in', on: :collection
+    get :verify, to: 'otp#verify', on: :collection
   end
 
+  resources :users do
+    get :signin, to: 'users#signin', on: :collection
+    get :verify_mobile_signin, to: 'users#verify_mobile_signin', on: :collection
+  end
 end

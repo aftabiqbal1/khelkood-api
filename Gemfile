@@ -57,5 +57,6 @@ group :development do
   # gem "spring"
   gem 'rails-erd'
   gem "letter_opener"
+  gem 'active_model_serializers', '~> 0.10.2'
 end
 

@@ -37,7 +37,6 @@ class SportsComplexController < ApplicationController
   end
 
   def sports_complex_review_params
-    binding.break
     params.require(:sports_complex_review)
   end
 end
