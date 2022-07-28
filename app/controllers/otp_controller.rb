@@ -2,7 +2,7 @@ class OtpController < ApplicationController
   def create
     @otp = Otp.new(phone_params)
     if @otp.save
-    render json: @otp, only: [:otp], status: :created
+    render json: @otp.to_json, only: [:otp], status: :created
     else
       render json: @otp.errors, each_serializer: OtpSerializer, status: :unprocessable_entity
     end
@@ -11,9 +11,10 @@ class OtpController < ApplicationController
   def verify
     check = Otp.where(otp: otp_params[:otp], mobile_number: otp_params[:mobile_number])
     if !check.empty?
+      temp = User.create(mobile_number: otp_params[:mobile_number])
+      temp.save!
       check.update(verified:true)
-      User.create(mobile_number: otp_params[:mobile_number])
-      render json: check, status: :ok
+      render json: temp, only:[:mobile_number], status: :ok
     else
       render json: check, status: :not_found
     end

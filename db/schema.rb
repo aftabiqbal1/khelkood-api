@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_21_080236) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_28_064817) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -134,18 +134,25 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_21_080236) do
   end
 
   create_table "sports_complexes", force: :cascade do |t|
-    t.string "name"
-    t.string "image"
-    t.string "city"
-    t.string "address"
-    t.string "cost_hr"
-    t.string "timing"
-    t.boolean "snacks_availability"
-    t.string "ground_type"
-    t.integer "No_of_stadiums"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.integer "no_of_stadiums"
+    t.string "address"
+    t.string "city"
+    t.integer "cost_hr"
+    t.string "ground_type"
+    t.string "image"
+    t.boolean "snacks_availability"
+    t.string "timing"
     t.bigint "user_id"
+    t.index ["email"], name: "index_sports_complexes_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_sports_complexes_on_reset_password_token", unique: true
     t.index ["user_id"], name: "index_sports_complexes_on_user_id"
   end
 
@@ -186,51 +193,31 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_21_080236) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "encrypted_password", default: "", null: false
+    t.string "email", default: ""
+    t.string "encrypted_password", default: ""
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
     t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "mobile_number"
     t.string "city"
     t.string "address"
     t.integer "role"
-    t.boolean "active_status"
-    t.bigint "team_id"
     t.bigint "otp"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.bigint "team_id"
+    t.string "name"
+    t.index ["email"], name: "index_users_on_email"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 
-  add_foreign_key "bookings", "sports_complexes"
-  add_foreign_key "bookings", "users"
   add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "users"
   add_foreign_key "order_details", "products"
-  add_foreign_key "order_details", "users"
-  add_foreign_key "otps", "users"
   add_foreign_key "product_reviews", "products"
-  add_foreign_key "product_reviews", "users"
   add_foreign_key "products", "discounts"
-  add_foreign_key "sports_complex_reviews", "sports_complexes"
-  add_foreign_key "sports_complexes", "users"
   add_foreign_key "stores", "products"
-  add_foreign_key "stores", "users"
   add_foreign_key "transaction_details", "bookings"
   add_foreign_key "transaction_details", "order_details", column: "order_details_id"
-  add_foreign_key "transaction_details", "users"
   add_foreign_key "users", "teams"
 end

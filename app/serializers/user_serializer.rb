@@ -8,7 +8,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :stores
   has_many :transaction_details
   belongs_to :team, optional: true
-  has_many :otps
+  has_many :otp
 
   attributes :id, :name, :email, :city, :address, :role, :team_id, :otp, :mobile_number
 end

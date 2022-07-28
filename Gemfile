@@ -3,6 +3,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.0.1"
 
+gem 'dotenv-rails', groups: [:development, :test]
+gem "omniauth-rails_csrf_protection"
+
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.3"
 
@@ -36,9 +40,7 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
-
-gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"
-gem 'devise'
+ gem 'devise'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -58,5 +60,6 @@ group :development do
   gem 'rails-erd'
   gem "letter_opener"
   gem 'active_model_serializers', '~> 0.10.2'
+  gem 'omniauth-google-oauth2'
 end
 
