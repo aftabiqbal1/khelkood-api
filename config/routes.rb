@@ -1,18 +1,31 @@
 Rails.application.routes.draw do
-  get 'home/index'
+
   # devise_for :users
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
-  mount_devise_token_auth_for 'User', at: 'auth'
 
-  root to: 'home#index'
+  resources :customers do
+    post :register_team, on: :collection
+  end
 
-  resources :customers
-  post 'customers/registerTeam'
+  resources :teams do
+    post :add_match_stats
+  end
 
-  resources :sports_complex
-  post 'sports_complex/postReview'
+  resources :otp do
+    get :verify, to: 'otp#verify', on: :collection
+  end
 
-  resources :teams
-  post 'teams/add_match_stats'
+  devise_scope :user do
+    get 'verify_mobile_signin', to: 'users/sessions#verify_mobile_signin', as: :verify_mobile_signin
+    get 'login', to: 'users/sessions#login'
+  end
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'}
+
+  # resources :users do
+  #   get :signin, to: 'users#signin', on: :collection
+  #   get :verify_mobile_signin, to: 'users#verify_mobile_signin', on: :collection
+  # end
 end
