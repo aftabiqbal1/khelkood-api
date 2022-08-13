@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #user try to signin with phone number, api generates OTP for that number here
   def signin
     user = User.where(mobile_number: sigin_params[:mobile_number])
     if !user.empty?
@@ -17,12 +18,13 @@ class UsersController < ApplicationController
         generated_otp =rand(1e5...1e6).to_i
         break generated_otp unless User.where(otp:generated_otp).exists?
       end)
-      render json: user, only: [:otp], status: :ok
+      render json: user.to_json, only: [:otp], status: :ok
     else
-      render json: user, status: :not_found
+      render json: user.errors.full_message, status: :not_found
     end
   end
 
+  #user signin by entering the OTP being generated against it's number in the last step
   def verify_mobile_signin
     check = User.where(mobile_number: verify_mobile_signin_params[:mobile_number], otp: verify_mobile_signin_params[:otp])
     if !check.empty?

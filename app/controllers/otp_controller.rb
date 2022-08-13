@@ -1,13 +1,16 @@
 class OtpController < ApplicationController
+
+  #generates otp in otp table, when a user signup with mobile number
   def create
     @otp = Otp.new(phone_params)
     if @otp.save
-    render json: @otp, only: [:otp], status: :created
+    render json: @otp.to_json, only: [:otp, :mobile_number], status: :created
     else
       render json: @otp.errors, each_serializer: OtpSerializer, status: :unprocessable_entity
     end
   end
 
+  #verifies the mobile number if user enters the correct OTP
   def verify
     check = Otp.where(otp: otp_params[:otp], mobile_number: otp_params[:mobile_number])
     if !check.empty?
@@ -19,7 +22,7 @@ class OtpController < ApplicationController
     end
   end
 
-  protected
+  private
 
   def phone_params
     params.permit(:mobile_number)
