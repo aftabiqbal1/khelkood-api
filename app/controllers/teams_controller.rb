@@ -12,11 +12,19 @@ class TeamsController < ApplicationController
   end
 
   def add_match_stats
-    binding.break
+
     @stats = Team.find(match_stats_params[:id])
 
-    if !@stats.nil?
-
+    unless @stats.nil?
+      if match_stats_params[:result] == 'win'
+        win_match
+      elsif
+      match_stats_params[:result] == 'lose'
+        lose_match
+      elsif
+      match_stats_params[:result] == 'draw'
+        draw_match
+      end
     end
   end
 

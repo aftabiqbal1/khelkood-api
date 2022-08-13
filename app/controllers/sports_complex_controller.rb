@@ -1,12 +1,12 @@
 class SportsComplexController < ApplicationController
   def create
     if !current_user.nil?
-      @sports_complex = SportsComplex.new(sports_complex_params)
-      @sports_complex.user_id = current_user.id
-      if @sports_complex.save
-        render json: @sports_complex, status: :created
+      sports_complex = SportsComplex.new(sports_complex_params)
+      sports_complex.user_id = current_user.id
+      if sports_complex.save
+        render json: sports_complex, status: :created
       else
-        render json: @sports_complex.errors, status: :unprocessable_entity
+        render json: sports_complex.errors, status: :unprocessable_entity
       end
     else
       root_path
@@ -22,12 +22,12 @@ class SportsComplexController < ApplicationController
   def destroy
   end
 
-  def postReview
-    @review = SportsComplexReview.new(sports_complex_review_params)
-    if @review.save
-      render json: @review, status: :created
+  def post_review
+    review = SportsComplexReview.new(sports_complex_review_params)
+    if review.save
+      render json: review, status: :created
     else
-      render json: @review.errors, status: :unprocessable_entity
+      render json: review.errors, status: :unprocessable_entity
     end
   end
 
@@ -37,7 +37,6 @@ class SportsComplexController < ApplicationController
   end
 
   def sports_complex_review_params
-    binding.break
     params.require(:sports_complex_review)
   end
 end
