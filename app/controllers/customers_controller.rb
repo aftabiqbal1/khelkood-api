@@ -1,9 +1,4 @@
 class CustomersController < ApplicationController
-  def customer_dashboard
-    @customer = current_user
-    @top_sports_complex = top_sports_complex
-    @top_teams = top_teams
-  end
 
   def find_sports_complex
     search = SportsComplex.where(city: sports_complex_params.city, ground_type:sports_complex_params.ground_type)
