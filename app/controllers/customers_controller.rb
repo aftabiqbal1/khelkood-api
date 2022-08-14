@@ -43,8 +43,8 @@ class CustomersController < ApplicationController
 
   private
 
-  def sports_complex_params
-    params.require(:sports_complex).permit(:ground_type, :city, :address,{booking: :date,booking: :time_slot})
-  end
+  # def sports_complex_params
+  #   params.require(:sports_complex).permit(:ground_type, :city, :address,{booking: :date,booking: :time_slot})
+  # end
 
 end
